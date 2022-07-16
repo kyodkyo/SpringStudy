@@ -5,7 +5,11 @@ import hello.servlet.web.frontController.MyView;
 import hello.servlet.web.frontController.v3.controller.MemberFormControllerV3;
 import hello.servlet.web.frontController.v3.controller.MemberListControllerV3;
 import hello.servlet.web.frontController.v3.controller.MemberSaveControllerV3;
+import hello.servlet.web.frontController.v4.controller.MemberFormControllerV4;
+import hello.servlet.web.frontController.v4.controller.MemberListControllerV4;
+import hello.servlet.web.frontController.v4.controller.MemberSaveControllerV4;
 import hello.servlet.web.frontController.v5.adapter.ControllerV3HandlerAdapter;
+import hello.servlet.web.frontController.v5.adapter.ControllerV4HandlerAdapter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,42 +39,46 @@ public class FrontControllerServletV5 extends HttpServlet {
         handlerMappingMap.put("/front-controller/v5/v3/members/new-form", new MemberFormControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members/save", new MemberSaveControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members", new MemberListControllerV3());
+
+        handlerMappingMap.put("/front-controller/v5/v4/members/new-form", new MemberFormControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members/save", new MemberSaveControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members", new MemberListControllerV4());
     }
 
-    private boolean initHandlerAdapters() {
-        return handlerAdapters.add(new ControllerV3HandlerAdapter());
+    private void initHandlerAdapters() {
+        handlerAdapters.add(new ControllerV3HandlerAdapter());
+        handlerAdapters.add(new ControllerV4HandlerAdapter());
+
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //핸들러 찾기
-        Object handler = getHandler(request); //  1) 35번 줄에 의해 MemberFormControllerV3가 반환된다.
-        if(handler == null){
+        Object handler = getHandler(request);
+        if (handler == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        //  2) 핸들러(컨트롤러)를 처리할 수 있는 핸들러 어댑터 조회
-        MyHandlerAdapter adapter = getHandlerAdapter(handler); // (ControllerV3HandlerAdapter가 반환되었음)
+        // 핸들러(컨트롤러)를 처리할 수 있는 핸들러 어댑터 조회
+        MyHandlerAdapter adapter = getHandlerAdapter(handler);
 
-        ModelView mv = adapter.handle(request, response, handler);//모델뷰 반환해옴
+        ModelView mv = adapter.handle(request, response, handler);   //모델뷰 반환해옴
 
         String viewName = mv.getViewName();
         MyView view = viewResolver(viewName);
 
         view.render(mv.getModel(), request, response);
     }
+
     private Object getHandler(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         return handlerMappingMap.get(requestURI);
     }
 
-    // 3) 현재 handlerAdapters에는 ControllerV3HandlerAdapter가 들어가있으므로(41번 줄 참고), 이 어댑터의 supports 메서드가 호출된다.
-    // 4) supports메서드의 결과로 true가 반환된다. 따라서, getHandlerAdapter의 결과로 ControllerV3HandlerAdapter가 반환된다.
     private MyHandlerAdapter getHandlerAdapter(Object handler) {
         for (MyHandlerAdapter adapter : handlerAdapters) {
-            if(adapter.supports(handler)){
+            if (adapter.supports(handler)) {
                 return adapter;
             }
         }
