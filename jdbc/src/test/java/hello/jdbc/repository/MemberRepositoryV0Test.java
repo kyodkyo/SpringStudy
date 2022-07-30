@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class MemberRepositoryV0Test {
     MemberRepositoryV0 repository = new MemberRepositoryV0();
-
     @Test
     void crud() throws SQLException {
         //save
@@ -35,5 +34,6 @@ class MemberRepositoryV0Test {
         repository.delete(member.getMemberId());
         assertThatThrownBy(()-> repository.findById(member.getMemberId()))
                 .isInstanceOf(NoSuchElementException.class);
+
     }
 }

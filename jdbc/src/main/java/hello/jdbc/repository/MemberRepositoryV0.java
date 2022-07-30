@@ -134,8 +134,6 @@ public class MemberRepositoryV0 {
                 log.info("error", e);
             }
         }
-
-
     }
 
     private Connection getConnection() {
