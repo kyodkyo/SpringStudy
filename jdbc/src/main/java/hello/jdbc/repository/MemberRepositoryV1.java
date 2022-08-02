@@ -129,5 +129,4 @@ public class MemberRepositoryV1 {
         log.info("get connection={}, class={}", con, con.getClass());
         return con;
     }
-
 }
