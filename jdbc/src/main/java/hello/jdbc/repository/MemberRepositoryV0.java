@@ -10,7 +10,6 @@ import java.util.NoSuchElementException;
 /**
  * JDBC - DriveManager 사용
  */
-
 @Slf4j
 public class MemberRepositoryV0 {
 
@@ -33,8 +32,6 @@ public class MemberRepositoryV0 {
         } finally {
             close(con, pstmt, null);  // 호출 보장
         }
-
-
     }
 
     public Member findById(String memberId) throws SQLException {
@@ -65,7 +62,6 @@ public class MemberRepositoryV0 {
         } finally {
             close(con, pstmt, rs);
         }
-
     }
 
     public void update(String memberId, int money) throws SQLException {
