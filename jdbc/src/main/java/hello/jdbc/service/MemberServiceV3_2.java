@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @Slf4j
 public class MemberServiceV3_2 {
 
-//    private final PlatformTransactionManager transactionManager;
+    //private final PlatformTransactionManager transactionManager;
     private final MemberRepositoryV3 memberRepository;
     private final TransactionTemplate txTemplate;
 

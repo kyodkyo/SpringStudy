@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.NoSuchElementException;
 
+
 /**
  * 트랜잭션 - 트랜잭션 매니저
  * DataSourceUtils.getConnection()
@@ -35,13 +36,13 @@ public class MemberRepositoryV3 {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, member.getMemberId());
             pstmt.setInt(2, member.getMoney());
-            pstmt.executeUpdate(); // 업데이트 시 영향받은 row의 수가 반환된다.
+            pstmt.executeUpdate(); 
             return member;
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
-            close(con, pstmt, null);  // 호출 보장
+            close(con, pstmt, null);  //호출 보장
         }
 
 
