@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.*;
 
 @Slf4j
 public class SpringExceptionTranslatorTest {
-
     DataSource dataSource;
 
     @BeforeEach
@@ -38,7 +37,8 @@ public class SpringExceptionTranslatorTest {
             Connection con = dataSource.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             assertThat(e.getErrorCode()).isEqualTo(42122);
             int errorCode = e.getErrorCode();
             log.info("errorCode={}", errorCode);
@@ -54,7 +54,8 @@ public class SpringExceptionTranslatorTest {
             Connection con = dataSource.getConnection();
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
-        } catch (SQLException e){
+        }
+        catch (SQLException e){
             assertThat(e.getErrorCode()).isEqualTo(42122);
 
             SQLErrorCodeSQLExceptionTranslator exTranslator = new SQLErrorCodeSQLExceptionTranslator();

@@ -42,7 +42,6 @@ class MemberServiceV4Test {
 
     @TestConfiguration
     static class TestConfig {
-
         private final DataSource dataSource;
 
         public TestConfig(DataSource dataSource) {
